@@ -61,8 +61,8 @@
 
 	<body>
 		<div class='buttons'>
-			<a href="?page=.jpg" class="previous round">&#8249;</a>
-			<a href="?page=.jpg" class="next round">&#8250;</a>
+			<a href="#" onclick="getPreviousPage();">&#8249;</a>
+			<a href="#" onclick="getNextPage();" class="next round">&#8250;</a>
 		</div>
 
 		<div id="container">
@@ -71,17 +71,44 @@
 		
 
 		<script>
-		function getParamName(name) {
+		var totalPage = 3
+		
+		function getCurrentPage(name) {
 			    var s = window.location.search;
 			    s = s.match(new RegExp(name + '=([^&=]+)'));
 			    return s ? s[1] : false;
 		}
 		
+		function getNextPage() {
+			    currentPage = getCurrentPage('page')
+			    p=parseInt(currentPage)
+
+			    if (p >= totalPage) {
+			    	window.location = '?page=1'
+			    	return
+			    }
+			    p+=1
+			    window.location = '?page='+p
+			    
+		}
 		
-			var page_name = getParamName('page')
+		function getPreviousPage() {
+			    currentPage = getCurrentPage('page')
+			    p=parseInt(currentPage)
+			    if (p <= 1) {
+			    	window.location = '?page='+totalPage
+			    	return
+			    }
+			    p-=1
+			    window.location = '?page='+p
+		}
+		
+		
+		
+			var page_name = getCurrentPage('page')
 			var div = document.getElementById('container');
 			var PSV = new PhotoSphereViewer({
-					panorama: 'photo/1'+page_name,
+					panorama: 'photo/'+page_name+'.jpg',
 					container: div,
 					time_anim: 3000,
 					navbar: true,
